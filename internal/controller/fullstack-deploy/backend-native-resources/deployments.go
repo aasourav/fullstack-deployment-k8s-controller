@@ -25,7 +25,7 @@ func BackendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStackD
 
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      deploymentData.Name + "be-deployment",
+			Name:      "be",
 			Namespace: deploymentData.Namespace,
 			OwnerReferences: []metav1.OwnerReference{
 				{
