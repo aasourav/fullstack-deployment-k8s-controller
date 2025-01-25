@@ -33,15 +33,15 @@ type FullStackDeploySpec struct {
 	// +kubebuilder:validation:Required
 	FrontendPort int32 `json:"frontendPort"`
 	// +kubebuilder:validation:Required
-	FrontendReplicas int32 `json:"frontendReplica"`
+	FrontendReplicas int32             `json:"frontendReplica"`
+	FrontendEnv      map[string]string `json:"frontendEnv,omitempty"`
 	// +kubebuilder:validation:Required
 	BackendImage string `json:"backendImage"`
 	// +kubebuilder:validation:Required
 	BackendPort int32 `json:"backendPort"`
 	// +kubebuilder:validation:Required
-	BackendReplicas int32 `json:"backendReplica"`
-	// +kubebuilder:validation:Required
-	DatabaseSecret string `json:"databaseSecret"`
+	BackendReplicas int32             `json:"backendReplica"`
+	BackendEnv      map[string]string `json:"backendEnv,omitempty"`
 }
 
 // FullStackDeployStatus defines the observed state of FullStackDeploy

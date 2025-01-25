@@ -16,7 +16,7 @@ func UpdateFrontendIngressService(deploymentData quickopsv1Controllerapi.FullSta
 		PathType: ptr.To(networkingv1.PathTypeImplementationSpecific),
 		Backend: networkingv1.IngressBackend{
 			Service: &networkingv1.IngressServiceBackend{
-				Name: deploymentData.Name + "fe-service",
+				Name: deploymentData.Name + "-frontend-service",
 				Port: networkingv1.ServiceBackendPort{
 					Number: deploymentData.Spec.FrontendPort,
 				},
@@ -56,7 +56,7 @@ func FrontendIngressService(deploymentData quickopsv1Controllerapi.FullStackDepl
 									PathType: ptr.To(networkingv1.PathTypeImplementationSpecific),
 									Backend: networkingv1.IngressBackend{
 										Service: &networkingv1.IngressServiceBackend{
-											Name: deploymentData.Name + "fe-service",
+											Name: deploymentData.Name + "-frontend-service",
 											Port: networkingv1.ServiceBackendPort{
 												Number: deploymentData.Spec.FrontendPort,
 											},

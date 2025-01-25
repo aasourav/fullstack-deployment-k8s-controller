@@ -13,7 +13,7 @@ import (
 func FrontendService(deploymentData quickopsv1Controllerapi.FullStackDeploy) *corev1.Service {
 	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      deploymentData.Name + "fe-service",
+			Name:      deploymentData.Name + "-frontend-service",
 			Namespace: deploymentData.Namespace,
 			OwnerReferences: []metav1.OwnerReference{
 				{
@@ -36,7 +36,7 @@ func FrontendService(deploymentData quickopsv1Controllerapi.FullStackDeploy) *co
 					Port:       deploymentData.Spec.FrontendPort,
 				},
 			},
-			Type: corev1.ServiceTypeLoadBalancer,
+			Type: corev1.ServiceTypeClusterIP,
 		},
 	}
 

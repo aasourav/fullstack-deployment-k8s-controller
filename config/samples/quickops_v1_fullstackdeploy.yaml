@@ -7,10 +7,13 @@ metadata:
   name: fullstackdeploy-sample
   namespace: ingress-nginx
 spec:
-  frontendImage: "nginx"
+  frontendImage: "aasourav/aes-meal:0.85"
   frontendPort: 80
   frontendReplica: 3
-  backendImage: "backend-image:latest"
+  backendImage: "aasourav/aes-meal-server:0.29"
   backendPort: 8080
   backendReplica: 2
-  databaseSecret: "my-database-secret"
+  backendEnv:
+    "MONGO_URI": "mongodb+srv://aesmeal:aesmeal@aes-meal.nzl6b.mongodb.net/aesmeal?retryWrites=true&w=majority&appName=aes-meal"
+    "MODE": "release"
+    "MONGO_DATABASE": "aesmeal"

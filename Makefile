@@ -24,6 +24,10 @@ SHELL = /usr/bin/env bash -o pipefail
 .PHONY: all
 all: build
 
+.PHONY: install-ingress-controller
+install-ingress-controller: 
+	helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+
 ##@ General
 
 # The help target prints out all targets with their descriptions organized

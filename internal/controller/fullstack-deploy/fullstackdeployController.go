@@ -23,8 +23,10 @@ import (
 	"github.com/go-logr/logr"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
@@ -60,11 +62,23 @@ func (r *FullStackDeployReconciler) Reconcile(ctx context.Context, req ctrl.Requ
 	fullStackDeploy := &quickopsv1Controllerapi.FullStackDeploy{}
 	err := r.Get(context.TODO(), types.NamespacedName{Name: req.Name, Namespace: req.Namespace}, fullStackDeploy, &client.GetOptions{})
 	if err != nil {
-		fmt.Println("FullstackDeployError: ", err)
+		if !errors.IsNotFound(err) {
+			fmt.Println("FullstackDeployError: ", err)
+			return ctrl.Result{}, err
+		} else {
+			return ctrl.Result{}, nil
+		}
+	}
+
+	// fullStackDeploy.Finalizers
+
+	// Frontend Reconciller
+	if err := r.frontendReconciler(fullStackDeploy); err != nil {
 		return ctrl.Result{}, err
 	}
 
-	if err := r.frontendReconciler(fullStackDeploy); err != nil {
+	// Backend Reconciller
+	if err := r.backendReconciler(fullStackDeploy); err != nil {
 		return ctrl.Result{}, err
 	}
 

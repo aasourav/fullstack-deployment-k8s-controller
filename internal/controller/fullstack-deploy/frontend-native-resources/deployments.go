@@ -11,9 +11,20 @@ import (
 )
 
 func FrontendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStackDeploy) *appsv1.Deployment {
+	frontendEnv := []corev1.EnvVar{}
+	if deploymentData.Spec.FrontendEnv != nil && len(deploymentData.Spec.FrontendEnv) > 0 {
+		for key, value := range deploymentData.Spec.FrontendEnv {
+			env := corev1.EnvVar{
+				Name:  key,
+				Value: value,
+			}
+			frontendEnv = append(frontendEnv, env)
+		}
+	}
+
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      deploymentData.Name + "fe-deployment",
+			Name:      deploymentData.Name + "-frontend",
 			Namespace: deploymentData.Namespace,
 			OwnerReferences: []metav1.OwnerReference{
 				{
@@ -55,6 +66,7 @@ func FrontendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStack
 									Name:          "fe",
 								},
 							},
+							Env: frontendEnv,
 						},
 					},
 				},
