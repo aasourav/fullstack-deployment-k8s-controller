@@ -14,6 +14,6 @@ spec:
   backendPort: 8080
   backendReplica: 2
   backendEnv:
-    "MONGO_URI": "mongo uri"
+    "MONGO_URI": "mongodb+srv://aesmeal:aesmeal@aes-meal.nzl6b.mongodb.net/aesmeal?retryWrites=true&w=majority&appName=aes-meal"
     "MODE": "release"
-    "MONGO_DATABASE": "mongo db"
+    "MONGO_DATABASE": "aesmeal"
