@@ -70,6 +70,8 @@ func (r *FullStackDeployReconciler) Reconcile(ctx context.Context, req ctrl.Requ
 		}
 	}
 
+	// fullStackDeploy.Finalizers
+
 	// Frontend Reconciller
 	if err := r.frontendReconciler(fullStackDeploy); err != nil {
 		return ctrl.Result{}, err

@@ -36,7 +36,7 @@ func BackendService(deploymentData quickopsv1Controllerapi.FullStackDeploy) *cor
 					Port:       deploymentData.Spec.FrontendPort,
 				},
 			},
-			Type: corev1.ServiceTypeLoadBalancer,
+			Type: corev1.ServiceTypeClusterIP,
 		},
 	}
 
