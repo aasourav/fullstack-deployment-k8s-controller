@@ -1,0 +1,32 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manager-role
+rules:
+- apiGroups:
+  - quickops.sand.tech
+  resources:
+  - fullstackdeploys
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - quickops.sand.tech
+  resources:
+  - fullstackdeploys/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - quickops.sand.tech
+  resources:
+  - fullstackdeploys/status
+  verbs:
+  - get
+  - patch
+  - update

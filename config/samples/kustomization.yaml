@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- quickops_v1_fullstackdeploy.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples

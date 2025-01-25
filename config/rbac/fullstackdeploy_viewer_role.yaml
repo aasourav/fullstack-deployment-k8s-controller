@@ -1,0 +1,23 @@
+# permissions for end users to view fullstackdeploys.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: kubebuilder-operator-video-conference
+    app.kubernetes.io/managed-by: kustomize
+  name: fullstackdeploy-viewer-role
+rules:
+- apiGroups:
+  - quickops.sand.tech
+  resources:
+  - fullstackdeploys
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - quickops.sand.tech
+  resources:
+  - fullstackdeploys/status
+  verbs:
+  - get

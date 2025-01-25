@@ -1,0 +1,16 @@
+apiVersion: quickops.sand.tech/v1
+kind: FullStackDeploy
+metadata:
+  labels:
+    app.kubernetes.io/name: kubebuilder-operator-video-conference
+    app.kubernetes.io/managed-by: kustomize
+  name: fullstackdeploy-sample
+  namespace: ingress-nginx
+spec:
+  frontendImage: "nginx"
+  frontendPort: 80
+  frontendReplica: 3
+  backendImage: "backend-image:latest"
+  backendPort: 8080
+  backendReplica: 2
+  databaseSecret: "my-database-secret"
