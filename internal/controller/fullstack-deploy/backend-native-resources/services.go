@@ -13,7 +13,7 @@ import (
 func BackendService(deploymentData quickopsv1Controllerapi.FullStackDeploy) *corev1.Service {
 	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      deploymentData.Name + "be-service",
+			Name:      deploymentData.Name + "-backend-service",
 			Namespace: deploymentData.Namespace,
 			OwnerReferences: []metav1.OwnerReference{
 				{

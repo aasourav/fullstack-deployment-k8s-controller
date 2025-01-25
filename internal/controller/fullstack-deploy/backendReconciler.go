@@ -15,7 +15,7 @@ func (r *FullStackDeployReconciler) backendReconciler(fullStackDeploymentData *q
 	// deployment := &appsv1.Deployment{}
 	// r.Get(context.TODO(), types.NamespacedName{Name: fullStackDeploymentData.Name + "fe-deployment", Namespace: fullStackDeploymentData.Namespace}, deployment, &client.GetOptions{})
 
-	if _, err := r.KubernetesClientSet.AppsV1().Deployments(fullStackDeploymentData.Namespace).Get(context.TODO(), fullStackDeploymentData.Name+"be-deployment", metav1.GetOptions{}); err != nil {
+	if _, err := r.KubernetesClientSet.AppsV1().Deployments(fullStackDeploymentData.Namespace).Get(context.TODO(), fullStackDeploymentData.Name+"-backend", metav1.GetOptions{}); err != nil {
 		if !errors.IsNotFound(err) {
 			return nil
 		}
@@ -27,7 +27,7 @@ func (r *FullStackDeployReconciler) backendReconciler(fullStackDeploymentData *q
 
 	// ====================  Service ===========================
 
-	if _, err := r.KubernetesClientSet.CoreV1().Services(fullStackDeploymentData.Namespace).Get(context.TODO(), fullStackDeploymentData.Name+"fe-service", metav1.GetOptions{}); err != nil {
+	if _, err := r.KubernetesClientSet.CoreV1().Services(fullStackDeploymentData.Namespace).Get(context.TODO(), fullStackDeploymentData.Name+"-backend-service", metav1.GetOptions{}); err != nil {
 		if !errors.IsNotFound(err) {
 			return err
 		}

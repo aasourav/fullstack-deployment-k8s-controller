@@ -12,11 +12,11 @@ import (
 func UpdateBackendIngressService(deploymentData quickopsv1Controllerapi.FullStackDeploy, ingress networkingv1.Ingress) *networkingv1.Ingress {
 	networkingv1Paths := ingress.Spec.Rules[0].HTTP.Paths
 	frontendPath := networkingv1.HTTPIngressPath{
-		Path:     "/",
+		Path:     "/be",
 		PathType: ptr.To(networkingv1.PathTypeImplementationSpecific),
 		Backend: networkingv1.IngressBackend{
 			Service: &networkingv1.IngressServiceBackend{
-				Name: deploymentData.Name + "be-service",
+				Name: deploymentData.Name + "-backend-service",
 				Port: networkingv1.ServiceBackendPort{
 					Number: deploymentData.Spec.BackendPort,
 				},
@@ -52,11 +52,11 @@ func BackendIngressService(deploymentData quickopsv1Controllerapi.FullStackDeplo
 						HTTP: &networkingv1.HTTPIngressRuleValue{
 							Paths: []networkingv1.HTTPIngressPath{
 								{
-									Path:     "/be-" + deploymentData.Name,
+									Path:     "/be",
 									PathType: ptr.To(networkingv1.PathTypeImplementationSpecific),
 									Backend: networkingv1.IngressBackend{
 										Service: &networkingv1.IngressServiceBackend{
-											Name: deploymentData.Name + "be-service",
+											Name: deploymentData.Name + "-backend-service",
 											Port: networkingv1.ServiceBackendPort{
 												Number: deploymentData.Spec.BackendPort,
 											},
