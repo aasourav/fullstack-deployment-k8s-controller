@@ -2,7 +2,7 @@ package controller
 
 import (
 	quickopsv1Controllerapi "aasourav/fullstackdeploymentoperator/api/v1"
-	frontend "aasourav/fullstackdeploymentoperator/internal/controller/fullstack-deploy/native-resources-frontend"
+	frontend "aasourav/fullstackdeploymentoperator/internal/controller/fullstack-deploy/frontend-native-resources"
 	"context"
 
 	networkingv1 "k8s.io/api/networking/v1"
