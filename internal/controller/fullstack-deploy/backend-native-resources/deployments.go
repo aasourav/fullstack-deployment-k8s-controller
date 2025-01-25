@@ -1,4 +1,4 @@
-package frontendNativeResource
+package backendNativeResource
 
 import (
 	quickopsv1Controllerapi "aasourav/fullstackdeploymentoperator/api/v1"
@@ -10,10 +10,22 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-func FrontendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStackDeploy) *appsv1.Deployment {
+func BackendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStackDeploy) *appsv1.Deployment {
+
+	backendEnv := []corev1.EnvVar{}
+	if deploymentData.Spec.BackendEnv != nil && len(deploymentData.Spec.BackendEnv) > 0 {
+		for key, value := range deploymentData.Spec.BackendEnv {
+			env := corev1.EnvVar{
+				Name:  key,
+				Value: value,
+			}
+			backendEnv = append(backendEnv, env)
+		}
+	}
+
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      deploymentData.Name + "fe-deployment",
+			Name:      deploymentData.Name + "be-deployment",
 			Namespace: deploymentData.Namespace,
 			OwnerReferences: []metav1.OwnerReference{
 				{
@@ -25,19 +37,19 @@ func FrontendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStack
 				},
 			},
 			Labels: map[string]string{
-				"apps": "quickopsfe",
+				"apps": "quickopsbe",
 			},
 		},
 		Spec: appsv1.DeploymentSpec{
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"apps": "quickopsfe",
+					"apps": "quickopsbe",
 				},
 			},
-			Replicas: &deploymentData.Spec.FrontendReplicas,
+			Replicas: &deploymentData.Spec.BackendReplicas,
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      deploymentData.Name + "fe-deployment",
+					Name:      deploymentData.Name + "be-deployment",
 					Namespace: deploymentData.Namespace,
 					Labels: map[string]string{
 						"apps": "quickopsfe",
@@ -46,15 +58,16 @@ func FrontendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStack
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name:  deploymentData.Name + "fe-deployment",
-							Image: deploymentData.Spec.FrontendImage,
+							Name:  deploymentData.Name + "be-deployment",
+							Image: deploymentData.Spec.BackendImage,
 							Ports: []corev1.ContainerPort{
 								{
-									ContainerPort: deploymentData.Spec.FrontendPort,
+									ContainerPort: deploymentData.Spec.BackendPort,
 									Protocol:      corev1.ProtocolTCP,
-									Name:          "fe",
+									Name:          "be",
 								},
 							},
+							Env: backendEnv,
 						},
 					},
 				},

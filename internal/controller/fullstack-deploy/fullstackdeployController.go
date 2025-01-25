@@ -64,7 +64,13 @@ func (r *FullStackDeployReconciler) Reconcile(ctx context.Context, req ctrl.Requ
 		return ctrl.Result{}, err
 	}
 
+	// Frontend Reconciller
 	if err := r.frontendReconciler(fullStackDeploy); err != nil {
+		return ctrl.Result{}, err
+	}
+
+	// Backend Reconciller
+	if err := r.backendReconciler(fullStackDeploy); err != nil {
 		return ctrl.Result{}, err
 	}
 

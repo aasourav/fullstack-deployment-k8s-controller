@@ -1,4 +1,4 @@
-package frontendNativeResource
+package backendNativeResource
 
 import (
 	quickopsv1Controllerapi "aasourav/fullstackdeploymentoperator/api/v1"
@@ -10,10 +10,10 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-func FrontendService(deploymentData quickopsv1Controllerapi.FullStackDeploy) *corev1.Service {
+func BackendService(deploymentData quickopsv1Controllerapi.FullStackDeploy) *corev1.Service {
 	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      deploymentData.Name + "fe-service",
+			Name:      deploymentData.Name + "be-service",
 			Namespace: deploymentData.Namespace,
 			OwnerReferences: []metav1.OwnerReference{
 				{
@@ -27,12 +27,12 @@ func FrontendService(deploymentData quickopsv1Controllerapi.FullStackDeploy) *co
 		},
 		Spec: corev1.ServiceSpec{
 			Selector: map[string]string{
-				"apps": "quickopsfe",
+				"apps": "quickopsbe",
 			},
 			Ports: []corev1.ServicePort{
 				{
 					Protocol:   corev1.ProtocolTCP,
-					TargetPort: intstr.FromString("fe"),
+					TargetPort: intstr.FromString("be"),
 					Port:       deploymentData.Spec.FrontendPort,
 				},
 			},

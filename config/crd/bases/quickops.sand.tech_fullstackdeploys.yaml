@@ -39,6 +39,10 @@ spec:
           spec:
             description: FullStackDeploySpec defines the desired state of FullStackDeploy
             properties:
+              backendEnv:
+                additionalProperties:
+                  type: string
+                type: object
               backendImage:
                 type: string
               backendPort:
@@ -47,8 +51,10 @@ spec:
               backendReplica:
                 format: int32
                 type: integer
-              databaseSecret:
-                type: string
+              frontendEnv:
+                additionalProperties:
+                  type: string
+                type: object
               frontendImage:
                 type: string
               frontendPort:
@@ -61,7 +67,6 @@ spec:
             - backendImage
             - backendPort
             - backendReplica
-            - databaseSecret
             - frontendImage
             - frontendPort
             - frontendReplica
