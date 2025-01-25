@@ -18,6 +18,7 @@ func (r *FullStackDeployReconciler) frontendReconciler(fullStackDeploymentData *
 	//=============== Deployment =======================
 	// deployment := &appsv1.Deployment{}
 	// r.Get(context.TODO(), types.NamespacedName{Name: fullStackDeploymentData.Name + "fe-deployment", Namespace: fullStackDeploymentData.Namespace}, deployment, &client.GetOptions{})
+
 	if _, err := r.KubernetesClientSet.AppsV1().Deployments(fullStackDeploymentData.Namespace).Get(context.TODO(), fullStackDeploymentData.Name+"fe-deployment", metav1.GetOptions{}); err != nil {
 		if !errors.IsNotFound(err) {
 			return nil
@@ -41,8 +42,8 @@ func (r *FullStackDeployReconciler) frontendReconciler(fullStackDeploymentData *
 	}
 
 	// ====================  Ingress ==============================
-	ingress := &networkingv1.Ingress{}
 
+	ingress := &networkingv1.Ingress{}
 	ingress, err := r.KubernetesClientSet.NetworkingV1().Ingresses(fullStackDeploymentData.Namespace).Get(context.TODO(), fullStackDeploymentData.Name+"fullstack-ing", metav1.GetOptions{})
 	if err != nil {
 		if !errors.IsNotFound(err) {
@@ -53,6 +54,7 @@ func (r *FullStackDeployReconciler) frontendReconciler(fullStackDeploymentData *
 			return err
 		}
 	} else {
+		ingress = frontend.UpdateFrontendIngressService(*fullStackDeploymentData, *ingress)
 		if err := r.Update(context.TODO(), ingress); err != nil {
 			return err
 		}
