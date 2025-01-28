@@ -12,7 +12,7 @@ import (
 func UpdateBackendIngressService(deploymentData quickopsv1Controllerapi.FullStackDeploy, ingress networkingv1.Ingress) *networkingv1.Ingress {
 	networkingv1Paths := ingress.Spec.Rules[0].HTTP.Paths
 	frontendPath := networkingv1.HTTPIngressPath{
-		Path:     "/be",
+		Path:     "/be?(.*)",
 		PathType: ptr.To(networkingv1.PathTypeImplementationSpecific),
 		Backend: networkingv1.IngressBackend{
 			Service: &networkingv1.IngressServiceBackend{
@@ -34,6 +34,11 @@ func BackendIngressService(deploymentData quickopsv1Controllerapi.FullStackDeplo
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      deploymentData.Name + "fullstack-ing",
 			Namespace: deploymentData.Namespace,
+			Annotations: map[string]string{
+				"nginx.ingress.kubernetes.io/rewrite-target": "/$1",
+				"kubernetes.io/ingress.class":                "nginx",
+				"nginx.ingress.kubernetes.io/use-regex":      "true",
+			},
 			OwnerReferences: []metav1.OwnerReference{
 				{
 					APIVersion: deploymentData.APIVersion,
@@ -45,14 +50,14 @@ func BackendIngressService(deploymentData quickopsv1Controllerapi.FullStackDeplo
 			},
 		},
 		Spec: networkingv1.IngressSpec{
-			IngressClassName: ptr.To("nginx"),
+			IngressClassName: ptr.To("nginx-aas-ns"),
 			Rules: []networkingv1.IngressRule{
 				{
 					IngressRuleValue: networkingv1.IngressRuleValue{
 						HTTP: &networkingv1.HTTPIngressRuleValue{
 							Paths: []networkingv1.HTTPIngressPath{
 								{
-									Path:     "/be",
+									Path:     "/be?(.*)",
 									PathType: ptr.To(networkingv1.PathTypeImplementationSpecific),
 									Backend: networkingv1.IngressBackend{
 										Service: &networkingv1.IngressServiceBackend{

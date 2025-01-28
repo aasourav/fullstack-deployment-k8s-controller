@@ -5,7 +5,8 @@ metadata:
     app.kubernetes.io/name: kubebuilder-operator-video-conference
     app.kubernetes.io/managed-by: kustomize
   name: fullstackdeploy-sample
-  namespace: ingress-nginx
+  namespace: aas-ns
+  # namespace: ingress-nginx
 spec:
   frontendImage: "aasourav/aes-meal:0.85"
   frontendPort: 80
