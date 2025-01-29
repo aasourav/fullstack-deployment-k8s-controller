@@ -17,4 +17,4 @@ spec:
   backendEnv:
     "MONGO_URI": "mongodb://admin:password@172.17.18.250:27017/logs?authSource=admin"
     "MODE": "release"
-    "MONGO_DATABASE": "aesmeal"
+    "MONGO_DATABASE": "logs"
