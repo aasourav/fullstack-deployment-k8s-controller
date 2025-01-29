@@ -35,8 +35,11 @@ func FrontendIngressService(deploymentData quickopsv1Controllerapi.FullStackDepl
 			Name:      deploymentData.Name + "fullstack-ing",
 			Namespace: deploymentData.Namespace,
 			Annotations: map[string]string{
-				"nginx.ingress.kubernetes.io/rewrite-target": "/$1",
-				"nginx.ingress.kubernetes.io/use-regex":      "true",
+				"nginx.ingress.kubernetes.io/rewrite-target":        "/$1",
+				"nginx.ingress.kubernetes.io/use-regex":             "true",
+				"nginx.ingress.kubernetes.io/proxy-connect-timeout": "30s",
+				"nginx.ingress.kubernetes.io/proxy-send-timeout":    "30s",
+				"nginx.ingress.kubernetes.io/proxy-read-timeout":    "30s",
 			},
 			OwnerReferences: []metav1.OwnerReference{
 				{
