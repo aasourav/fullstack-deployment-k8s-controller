@@ -35,7 +35,7 @@ func FrontendIngressService(deploymentData quickopsv1Controllerapi.FullStackDepl
 			Name:      deploymentData.Name + "fullstack-ing",
 			Namespace: deploymentData.Namespace,
 			Annotations: map[string]string{
-				"nginx.ingress.kubernetes.io/rewrite-target": "/$1",
+				"nginx.ingress.kubernetes.io/rewrite-target": "$1",
 				"kubernetes.io/ingress.class":                "nginx",
 				"nginx.ingress.kubernetes.io/use-regex":      "true",
 			},
@@ -50,7 +50,7 @@ func FrontendIngressService(deploymentData quickopsv1Controllerapi.FullStackDepl
 			},
 		},
 		Spec: networkingv1.IngressSpec{
-			IngressClassName: ptr.To("nginx-aas-ns"),
+			IngressClassName: ptr.To("nginx"),
 			Rules: []networkingv1.IngressRule{
 				{
 					IngressRuleValue: networkingv1.IngressRuleValue{

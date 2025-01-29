@@ -33,7 +33,7 @@ func BackendService(deploymentData quickopsv1Controllerapi.FullStackDeploy) *cor
 				{
 					Protocol:   corev1.ProtocolTCP,
 					TargetPort: intstr.FromString("be"),
-					Port:       deploymentData.Spec.FrontendPort,
+					Port:       deploymentData.Spec.BackendPort,
 				},
 			},
 			Type: corev1.ServiceTypeClusterIP,

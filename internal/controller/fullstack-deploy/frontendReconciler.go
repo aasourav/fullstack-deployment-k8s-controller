@@ -8,8 +8,9 @@ import (
 	networkingv1 "k8s.io/api/networking/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 
+	controllerUtils "aasourav/fullstackdeploymentoperator/internal/controller/utils"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	// controllerUtils "aasourav/fullstackdeploymentoperator/internal/controller/utils"
 	// "k8s.io/apimachinery/pkg/types"
 	// "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -54,6 +55,9 @@ func (r *FullStackDeployReconciler) frontendReconciler(fullStackDeploymentData *
 			return err
 		}
 	} else {
+		if isFound := controllerUtils.IsHTTPIngressPathExist(ingress.Spec.Rules[0].HTTP.Paths, "/be?(.*)"); isFound {
+			return nil
+		}
 		ingress = frontend.UpdateFrontendIngressService(*fullStackDeploymentData, *ingress)
 		if err := r.Update(context.TODO(), ingress); err != nil {
 			return err
