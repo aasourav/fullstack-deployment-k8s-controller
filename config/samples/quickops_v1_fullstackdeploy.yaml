@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: kustomize
   name: fullstackdeploy-sample
   namespace: ingress-nginx
+  # namespace: ingress-nginx
 spec:
   frontendImage: "aasourav/aes-meal:0.85"
   frontendPort: 80
@@ -14,6 +15,6 @@ spec:
   backendPort: 8080
   backendReplica: 2
   backendEnv:
-    "MONGO_URI": "mongodb+srv://aesmeal:aesmeal@aes-meal.nzl6b.mongodb.net/aesmeal?retryWrites=true&w=majority&appName=aes-meal"
+    "MONGO_URI": "mongodb://admin:password@172.17.18.250:27017/logs?authSource=admin"
     "MODE": "release"
     "MONGO_DATABASE": "aesmeal"

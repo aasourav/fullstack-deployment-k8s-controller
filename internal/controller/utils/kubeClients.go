@@ -23,7 +23,8 @@ type KubeClients struct {
 	CRDUnstructuredClientSet *dynamic.DynamicClient
 }
 
-var kubeconfig = flag.String("kubeconfig", "/home/aasourav/.kube/config", "location to your kubeconfig file")
+// var kubeconfig = flag.String("kubeconfig", "/home/aasourav/.kube/config", "location to your kubeconfig file")
+var kubeconfig = flag.String("kubeconfig", "/home/aes-sourav/.kube/config", "location to your kubeconfig file")
 
 func GetCRDStructuredClientSet() (*clientset.Clientset, error) {
 	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
