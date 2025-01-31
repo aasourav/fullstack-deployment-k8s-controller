@@ -10,6 +10,20 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
+func UpdateBackendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStackDeploy, deployment *appsv1.Deployment) *appsv1.Deployment {
+	isShouldUpdate := false
+	if deploymentData.Spec.BackendImage != "" && deploymentData.Spec.BackendImage != deployment.Spec.Template.Spec.Containers[0].Image {
+		isShouldUpdate = true
+		deployment.Spec.Template.Spec.Containers[0].Image = deploymentData.Spec.BackendImage
+	}
+
+	if isShouldUpdate {
+		return nil
+	} else {
+		return deployment
+	}
+}
+
 func BackendDeploymentResource(deploymentData quickopsv1Controllerapi.FullStackDeploy) *appsv1.Deployment {
 
 	backendEnv := []corev1.EnvVar{}
